@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAGMAX - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body { background-color: #f4f6f9; }
+        .navbar-brand { font-weight: bold; }
+        .stat-card {
+            border: none;
+            border-radius: 10px;
+            transition: transform 0.2s;
+        }
+        .stat-card:hover { transform: translateY(-5px); }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="#">MAGMAX EDUCATIONAL CENTRE</a>
+        <div class="ms-auto">
+            <span class="text-white me-3"><i class="bi bi-person-circle"></i> Hello, {{ session['username'] }}</span>
+            <a href="/logout" class="btn btn-danger btn-sm">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} text-center" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="row mb-4">
+        <div class="col">
+            <h2 class="fw-bold text-secondary">Dashboard</h2>
+            <p class="text-muted">Quick access to student files and records.</p>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card stat-card bg-white p-3 shadow-sm border-start border-primary border-4">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <h6 class="text-muted text-uppercase small">Total Students</h6>
+                        <h3 class="fw-bold mb-0">{{ total_students }}</h3>
+                    </div>
+                    <i class="bi bi-people-fill text-primary fs-1"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card stat-card bg-white p-3 shadow-sm border-start border-success border-4">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <h6 class="text-muted text-uppercase small">Total Parents</h6>
+                        <h3 class="fw-bold mb-0">{{ total_parents }}</h3>
+                    </div>
+                    <i class="bi bi-person-vcard text-success fs-1"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card stat-card bg-white p-3 shadow-sm border-start border-warning border-4">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <h6 class="text-muted text-uppercase small">Classes Active</h6>
+                        <h3 class="fw-bold mb-0">12</h3>
+                    </div>
+                    <i class="bi bi-house-door-fill text-warning fs-1"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h4 class="fw-bold text-secondary mb-3">Quick Actions</h4>
+    <div class="row g-3 mb-5">
+        <div class="col-md-3">
+            <a href="/add-student" class="btn btn-outline-primary w-100 p-3 text-center d-flex flex-column align-items-center">
+                <i class="bi bi-person-plus fs-2 mb-2"></i>
+                Add New Student
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="/directory" class="btn btn-outline-success w-100 p-3 text-center d-flex flex-column align-items-center">
+                <i class="bi bi-search fs-2 mb-2"></i>
+                Search Directory
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="/export-excel" class="btn btn-outline-secondary w-100 p-3 text-center d-flex flex-column align-items-center">
+                <i class="bi bi-file-earmark-excel fs-2 mb-2"></i>
+                Export Parent Contacts
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="/backup-db" class="btn btn-outline-danger w-100 p-3 text-center d-flex flex-column align-items-center">
+                <i class="bi bi-database-down fs-2 mb-2"></i>
+                Download Database Backup
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow-sm p-4 border-0">
+                <h5 class="fw-bold text-secondary mb-3"><i class="bi bi-arrow-counterclockwise"></i> Restore System Database</h5>
+                <p class="text-muted small">Upload a previously backed-up `.db` file to restore all student and parent contacts. This will overwrite current records.</p>
+                <form action="/restore-db" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <input class="form-control" type="file" name="backup_file" accept=".db" required>
+                    </div>
+                    <button type="submit" class="btn btn-danger btn-sm px-4" onclick="return confirm('WARNING: Restoring will overwrite all current system data. Proceed?');">Restore Database</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

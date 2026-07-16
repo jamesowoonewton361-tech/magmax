@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAGMAX - Edit Student</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body { background-color: #f4f6f9; }
+        .form-section-title {
+            border-bottom: 2px solid #ffc107;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            color: #d39e00;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="/dashboard">MAGMAX EDUCATIONAL CENTRE</a>
+        <div class="ms-auto">
+            <a href="/directory" class="btn btn-light btn-sm me-2"><i class="bi bi-arrow-left"></i> Back to Directory</a>
+            <a href="/logout" class="btn btn-danger btn-sm">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-sm p-4">
+                <h2 class="fw-bold text-secondary text-center mb-4">Modify Student & Parent Record</h2>
+
+                <form action="/edit-student/{{ student.id }}" method="POST">
+                    
+                    <h5 class="form-section-title"><i class="bi bi-person-fill"></i> Student Information</h5>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label">Admission Number <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="admission_no" value="{{ student.admission_no }}" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">First Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="first_name" value="{{ student.first_name }}" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Middle Name (Optional)</label>
+                            <input type="text" class="form-control" name="middle_name" value="{{ student.middle_name or '' }}">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Surname <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="surname" value="{{ student.surname }}" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Gender <span class="text-danger">*</span></label>
+                            <select class="form-select" name="gender" required>
+                                <option value="Male" {% if student.gender == 'Male' %}selected{% endif %}>Male</option>
+                                <option value="Female" {% if student.gender == 'Female' %}selected{% endif %}>Female</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Date of Birth <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" name="date_of_birth" value="{{ student.date_of_birth }}" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Class Assigned <span class="text-danger">*</span></label>
+                            <select class="form-select" name="class_name" required>
+                                {% for cls in ["Nursery", "KG 1", "KG 2", "Class 1", "Class 2", "Class 3", "Class 4", "Class 5", "Class 6", "JHS 1", "JHS 2", "JHS 3"] %}
+                                    <option value="{{ cls }}" {% if student.class_name == cls %}selected{% endif %}>{{ cls }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <h5 class="form-section-title"><i class="bi bi-people-fill"></i> Parent / Guardian Contact Details</h5>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label">Father's Full Name</label>
+                            <input type="text" class="form-control" name="father_name" value="{{ student.father_name or '' }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Father's Phone Number</label>
+                            <input type="tel" class="form-control" name="father_phone" value="{{ student.father_phone or '' }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Mother's Full Name</label>
+                            <input type="text" class="form-control" name="mother_name" value="{{ student.mother_name or '' }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Mother's Phone Number</label>
+                            <input type="tel" class="form-control" name="mother_phone" value="{{ student.mother_phone or '' }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Alternative Guardian's Name</label>
+                            <input type="text" class="form-control" name="guardian_name" value="{{ student.guardian_name or '' }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Guardian's Phone Number</label>
+                            <input type="tel" class="form-control" name="guardian_phone" value="{{ student.guardian_phone or '' }}">
+                        </div>
+                    </div>
+
+                    <h5 class="form-section-title"><i class="bi bi-geo-alt-fill"></i> Contact Address</h5>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-8">
+                            <label class="form-label">Residential Address</label>
+                            <input type="text" class="form-control" name="address" value="{{ student.address or '' }}">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">GPS Address / Digital Address</label>
+                            <input type="text" class="form-control" name="gps_address" value="{{ student.gps_address or '' }}">
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2">
+                        <a href="/directory" class="btn btn-secondary px-4">Cancel</a>
+                        <button type="submit" class="btn btn-warning px-5 fw-bold text-dark">Save Changes</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
