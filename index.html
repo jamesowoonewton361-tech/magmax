@@ -84,7 +84,7 @@
                         <div class="card stat-card bg-white p-3 shadow-sm border-start border-success border-4">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div>
-                                    <h6 class="text-muted text-uppercase small">Total Parents</h6>
+                                    <h6 class="text-muted text-uppercase small">Total Contacts</h6>
                                     <h3 class="fw-bold mb-0" id="statParents">0</h3>
                                 </div>
                                 <i class="bi bi-person-vcard text-success fs-1"></i>
@@ -96,7 +96,7 @@
                             <div class="d-flex align-items-center justify-content-between">
                                 <div>
                                     <h6 class="text-muted text-uppercase small">Active Classes</h6>
-                                    <h3 class="fw-bold mb-0">12</h3>
+                                    <h3 class="fw-bold mb-0" id="statClasses">14</h3>
                                 </div>
                                 <i class="bi bi-house-door-fill text-warning fs-1"></i>
                             </div>
@@ -135,15 +135,13 @@
 
                 <!-- System Utilities Section -->
                 <div class="row g-4">
-                    <!-- Backup Widget -->
                     <div class="col-md-6 mb-5">
                         <div class="card shadow-sm p-4 border-0 bg-white">
                             <h5 class="fw-bold text-secondary mb-2"><i class="bi bi-database-down"></i> Secure Data Backup</h5>
-                            <p class="text-muted small">Download your entire student and parent directory dataset as an offline backup archive.</p>
+                            <p class="text-muted small">Download your entire student and contact directory dataset as an offline backup archive.</p>
                             <button onclick="downloadBackup()" class="btn btn-outline-danger btn-sm px-4">Download Local Backup File</button>
                         </div>
                     </div>
-                    <!-- Restore Backup Widget -->
                     <div class="col-md-6 mb-5">
                         <div class="card shadow-sm p-4 border-0 bg-white">
                             <h5 class="fw-bold text-secondary mb-3"><i class="bi bi-arrow-counterclockwise"></i> Restore System Database</h5>
@@ -168,7 +166,6 @@
 
                 <!-- Department Grid Layout -->
                 <div class="row g-4 mb-4">
-                    <!-- Early Childhood -->
                     <div class="col-md-4">
                         <div class="card shadow-sm border-top border-info border-3 p-3 bg-white h-100">
                             <h5 class="fw-bold text-info"><i class="bi bi-baby-carriage"></i> Early Childhood</h5>
@@ -176,7 +173,6 @@
                             <div class="d-grid gap-2 mt-2" id="deptEarlyChildhood"></div>
                         </div>
                     </div>
-                    <!-- Primary -->
                     <div class="col-md-4">
                         <div class="card shadow-sm border-top border-primary border-3 p-3 bg-white h-100">
                             <h5 class="fw-bold text-primary"><i class="bi bi-book"></i> Primary Department</h5>
@@ -184,7 +180,6 @@
                             <div class="d-grid gap-2 mt-2" id="deptPrimary"></div>
                         </div>
                     </div>
-                    <!-- Junior High School (JHS) -->
                     <div class="col-md-4">
                         <div class="card shadow-sm border-top border-dark border-3 p-3 bg-white h-100">
                             <h5 class="fw-bold text-dark"><i class="bi bi-mortarboard-fill"></i> Junior High (JHS)</h5>
@@ -206,9 +201,9 @@
                                 <tr>
                                     <th>Adm No.</th>
                                     <th>Learner Name</th>
+                                    <th>DOB</th>
                                     <th>Gender</th>
-                                    <th>Father Contact</th>
-                                    <th>Mother Contact</th>
+                                    <th>Contacts</th>
                                     <th class="text-center">Actions</th>
                                 </tr>
                             </thead>
@@ -233,11 +228,15 @@
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">First Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="firstName" required>
+                                <input type="text" class="form-control" id="firstName" required pattern="[A-Za-z]+( [A-Za-z]+)*(-[A-Za-z]+)*" title="Names should only contain letters, spaces, or hyphens.">
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">Surname <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="surname" required>
+                                <input type="text" class="form-control" id="surname" required pattern="[A-Za-z]+( [A-Za-z]+)*(-[A-Za-z]+)*" title="Names should only contain letters, spaces, or hyphens.">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Date of Birth</label>
+                                <input type="date" class="form-control" id="dob">
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">Gender <span class="text-danger">*</span></label>
@@ -251,52 +250,57 @@
                                 <label class="form-label">Class Assigned <span class="text-danger">*</span></label>
                                 <select class="form-select" id="className" required>
                                     <option value="">Select Class</option>
-                                    <option value="Creche">Creche</option
-                                    <option value="Nursery">Nursery</option>
+                                    <option value="Creche">Creche</option>
+                                    <option value="Nursery 1">Nursery 1</option>
+                                    <option value="Nursery 2">Nursery 2</option>
                                     <option value="KG 1">KG 1</option>
                                     <option value="KG 2">KG 2</option>
-                                    <option value="Class 1">Class 1</option>
-                                    <option value="Class 2">Class 2</option>
-                                    <option value="Class 3">Class 3</option>
-                                    <option value="Class 4">Class 4</option>
-                                    <option value="Class 5">Class 5</option>
-                                    <option value="Class 6">Class 6</option>
-                                    <option value="JHS 1">JHS 1</option>
-                                    <option value="JHS 2">JHS 2</option>
-                                    <option value="JHS 3">JHS 3</option>
+                                    <option value="Basic 1">Basic 1</option>
+                                    <option value="Basic 2">Basic 2</option>
+                                    <option value="Basic 3">Basic 3</option>
+                                    <option value="Basic 4">Basic 4</option>
+                                    <option value="Basic 5">Basic 5</option>
+                                    <option value="Basic 6">Basic 6</option>
+                                    <option value="Basic 7">Basic 7</option>
+                                    <option value="Basic 8">Basic 8</option>
+                                    <option value="Basic 9">Basic 9</option>
                                 </select>
                             </div>
                         </div>
 
-                        <h5 class="form-section-title"><i class="bi bi-people-fill"></i> Parent Details</h5>
+                        <h5 class="form-section-title"><i class="bi bi-people-fill"></i> Parent & Guardian Details</h5>
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
-                                <label class="form-label">Father's Name</label>
-                                <input type="text" class="form-control" id="fatherName">
+                                <label class="form-label">Father's Name (Optional)</label>
+                                <input type="text" class="form-control" id="fatherName" pattern="[A-Za-z]*( [A-Za-z]+)*(-[A-Za-z]+)*" title="Names should only contain letters, spaces, or hyphens.">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Father's Phone</label>
-                                <input type="tel" class="form-control" id="fatherPhone">
+                                <label class="form-label">Father's Phone (Optional)</label>
+                                <input type="tel" class="form-control" id="fatherPhone" pattern="([0-9]{10})?" maxlength="10" placeholder="e.g. 0241234567" title="Please enter a valid 10-digit phone number">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Mother's Name</label>
-                                <input type="text" class="form-control" id="motherName">
+                                <label class="form-label">Mother's Name (Optional)</label>
+                                <input type="text" class="form-control" id="motherName" pattern="[A-Za-z]*( [A-Za-z]+)*(-[A-Za-z]+)*" title="Names should only contain letters, spaces, or hyphens.">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Mother's Phone</label>
-                                <input type="tel" class="form-control" id="motherPhone">
+                                <label class="form-label">Mother's Phone (Optional)</label>
+                                <input type="tel" class="form-control" id="motherPhone" pattern="([0-9]{10})?" maxlength="10" placeholder="e.g. 0551234567" title="Please enter a valid 10-digit phone number">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Guardian's Name (If not staying with parents)</label>
+                                <input type="text" class="form-control" id="guardianName" pattern="[A-Za-z]*( [A-Za-z]+)*(-[A-Za-z]+)*" title="Names should only contain letters, spaces, or hyphens.">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Guardian's Phone</label>
+                                <input type="tel" class="form-control" id="guardianPhone" pattern="([0-9]{10})?" maxlength="10" placeholder="e.g. 0201234567" title="Please enter a valid 10-digit phone number">
                             </div>
                         </div>
 
                         <h5 class="form-section-title"><i class="bi bi-geo-alt-fill"></i> Address</h5>
                         <div class="row g-3 mb-4">
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <label class="form-label">Residential Address</label>
-                                <input type="text" class="form-control" id="address">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">GPS Digital Address</label>
-                                <input type="text" class="form-control" id="gpsAddress">
+                                <input type="text" class="form-control" id="address" placeholder="e.g. House No. 12, School Junction">
                             </div>
                         </div>
 
@@ -313,7 +317,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <div>
                         <h2 class="fw-bold text-secondary">Global Directory Search</h2>
-                        <p class="text-muted">Instantly find parent phone numbers and profile entries across all files.</p>
+                        <p class="text-muted">Instantly find parent/guardian contacts and profiles.</p>
                     </div>
                     <button onclick="showSection('add-student')" class="btn btn-primary"><i class="bi bi-person-plus-fill"></i> Add Student</button>
                 </div>
@@ -330,18 +334,19 @@
                             <select id="directoryClassFilter" onchange="renderDirectory()" class="form-select">
                                 <option value="">All Classes</option>
                                 <option value="Creche">Creche</option>
-                                <option value="Nursery">Nursery</option>
+                                <option value="Nursery 1">Nursery 1</option>
+                                <option value="Nursery 2">Nursery 2</option>
                                 <option value="KG 1">KG 1</option>
                                 <option value="KG 2">KG 2</option>
-                                <option value="Class 1">Class 1</option>
-                                <option value="Class 2">Class 2</option>
-                                <option value="Class 3">Class 3</option>
-                                <option value="Class 4">Class 4</option>
-                                <option value="Class 5">Class 5</option>
-                                <option value="Class 6">Class 6</option>
-                                <option value="JHS 1">JHS 1</option>
-                                <option value="JHS 2">JHS 2</option>
-                                <option value="JHS 3">JHS 3</option>
+                                <option value="Basic 1">Basic 1</option>
+                                <option value="Basic 2">Basic 2</option>
+                                <option value="Basic 3">Basic 3</option>
+                                <option value="Basic 4">Basic 4</option>
+                                <option value="Basic 5">Basic 5</option>
+                                <option value="Basic 6">Basic 6</option>
+                                <option value="Basic 7">Basic 7</option>
+                                <option value="Basic 8">Basic 8</option>
+                                <option value="Basic 9">Basic 9</option>
                             </select>
                         </div>
                     </div>
@@ -356,8 +361,8 @@
                                     <th>Adm No.</th>
                                     <th>Student Name</th>
                                     <th>Class</th>
-                                    <th>Father Contact</th>
-                                    <th>Mother Contact</th>
+                                    <th>DOB</th>
+                                    <th>Contacts</th>
                                     <th class="text-center">Actions</th>
                                 </tr>
                             </thead>
